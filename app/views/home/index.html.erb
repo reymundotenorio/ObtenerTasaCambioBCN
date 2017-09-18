@@ -1,20 +1,18 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-12 text-center">
+    <div class="col-xs-12 text-center">
 
       <h1>Tasa de cambio BCN</h1>
-      <p>Find me in app/views/home/index.html.erb</p>
 
       <%= bootstrap_form_tag url: getbcn_path, layout: :horizontal, label_errors: true do |f| %>
       <div class="col-md-10">
         <%= f.date_select :fecha, hide_label: true %>
       </div>
-      <!-- selected: Date.today, order: [:day, :month, :year], -->
 
       <div class="controls form">
         <div class="col-md-12">
           <%= f.radio_button :opcion, 0, label: "Obtener tasa del dia", checked: true %>
-        <!-- f.radio_button :opcion, 1, label: "Obtener tasa del mes"  -->
+          <%=   f.radio_button :opcion, 1, label: "Obtener tasa del mes" %>
         </div>
       </div>
 
@@ -31,6 +29,43 @@
   </div>
 </div>
 
-<div class="alert alert-success text-center" role="alert">
-  <%= notice %>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 text-center">
+      <div class="alert alert-success text-center" role="alert">
+
+        <!-- Tasa día -->
+        <% if $tasa_dia.present? then %>
+        <p>Tasa de cambio:
+          <%= $tasa_dia.to_s %></p>
+
+      <% else %>
+        <!-- <p>Error al obtener tasa diaria</p> -->
+        <% end %>
+        <!-- End Tasa día -->
+
+        <!-- Tasa mes -->
+        <% if $tasa_mes.present? then %>
+        <ul>
+          <% $tasa_mes.each do |tasa_detalle| %>
+          <li>
+            <p>
+              <strong>Fecha:</strong>
+              <%= tasa_detalle[:fecha].to_s %>
+              <strong>-></strong>
+              <strong>Tasa:</strong>
+              <%= tasa_detalle[:valor] %>
+            </p>
+          </li>
+          <% end %>
+        </ul>
+
+      <% else %>
+        <!-- <p>Error al obtener tasa mensual</p> -->
+        <% end %>
+        <!-- End Tasa mes -->
+
+      </div>
+    </div>
+  </div>
 </div>
